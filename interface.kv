@@ -1,0 +1,110 @@
+#:import Factory kivy.factory.Factory
+<MyPopup2@Popup>
+    title: "Plot Result"
+    auto_dismiss: True
+    size_hint: 0.6, 0.8
+    pos_hint: {"x":0.2, "top": 1}
+    background_color: 0.2, 0.2, 0.2, 1  # Dark background color
+
+    BoxLayout:
+        orientation: "vertical"
+        size_hint: 1, 1
+        padding: "10dp"
+        spacing: "10dp"
+
+        GridLayout:
+            id: figures_layout
+            cols: 1
+            size_hint_y: None
+            height: self.minimum_height  # Allow the layout to expand vertically if needed
+
+
+
+
+
+<MyPopup@Popup>
+    title: "Select Dataset on Your Device" 
+    auto_dismiss: True
+    size_hint: 0.6, 0.8
+    pos_hint: {"x":0.2, "top": 1}
+    background_color: 0.2, 0.2, 0.2, 1  # Dark background color
+
+    BoxLayout:
+        orientation: "vertical"
+        size_hint: 1, 1
+        padding: "10dp"
+        spacing: "10dp"
+
+
+        FileChooserListView:
+            id: filechooser
+            dirselect: True
+            size_hint_y: 0.4
+
+
+
+        Button:
+            text: "Load Dataset"
+            font_size: 24
+            size_hint_y: 0.1
+            background_color: 0.4, 0.4, 0.4, 1  # Gray background color
+            on_release: 
+                app.root.load_data_in_thread(filechooser.path, True)  # Load data in thread
+                root.dismiss()
+
+        Button:
+            text: "Close Me!"
+            font_size: 24
+            size_hint_y: 0.1
+            background_color: 0.4, 0.4, 0.4, 1  # Gray background color
+            on_release: root.dismiss()
+
+<MyLayout>:
+    id: my_widget
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        spacing: "2dp"
+        Button:
+            text: "Load Dataset"
+            font_size: 24
+            background_color: 0.4, 0.4, 0.4, 1  # Gray background color
+            on_release: Factory.MyPopup().open()
+        GridLayout:
+            cols: 2
+            size: root.width, root.height
+            spacing: "10dp"
+
+
+
+            Button:
+                text: "Train on Model CNN"
+                font_size: 24
+                size_hint_x: 0.5
+                background_color: 0.4, 0.4, 0.4, 1  # Gray background color
+              
+                on_release: app.root.traincnn()
+             
+
+            Button:
+                text: "Test on Model MLP"
+                font_size: 24
+                size_hint_x: 0.5
+                background_color: 0.4, 0.4, 0.4, 1  # Gray background color
+                on_release: app.root.testcnn()
+            
+
+            Button:
+                text: "Train on Model MLP"
+                font_size: 24
+                size_hint_x: 0.5
+                background_color: 0.4, 0.4, 0.4, 1  # Gray background color
+                on_release: app.root.trainmlp()
+
+            Button:
+                text: "Test on Model MLP"
+                font_size: 24
+                size_hint_x: 0.5
+                background_color: 0.4, 0.4, 0.4, 1  # Gray background color
+                on_release: app.root.testmlp()
+        
